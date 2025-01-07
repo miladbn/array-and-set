@@ -1,63 +1,96 @@
-# Benchmarking Performance: Array vs. Set in Deno
+# Performance Benchmark: Array vs Set in JavaScript
 
-This project benchmarks the performance of `Array` and `Set` operations in Deno using `Deno.bench`. It evaluates common operations such as searching, adding, and deleting elements to understand their relative performance characteristics.
+This repository benchmarks various operations on JavaScript Arrays and Sets. Below are the results and comparisons for different methods grouped by functionality.
 
 ## Benchmark Results
 
-### Group: `includes` (Search Operation)
+### Group: Includes
 
-| Operation       | Time/Iteration (avg) | Iterations/Sec (min … max)     | p75      | p99     | p995    |
-| --------------- | -------------------- | ------------------------------ | -------- | ------- | ------- |
-| Array: includes | 615.4 µs             | 1,625 (478.1 µs … 3.0 ms)      | 632.0 µs | 1.3 ms  | 2.2 ms  |
-| Set: has        | 6.5 ns               | 154,200,000 (4.8 ns … 56.6 ns) | 8.2 ns   | 15.1 ns | 19.7 ns |
+| Method          | Time/Iter (avg) | Iter/s (min … max)             | p75      | p99     | p995    |
+| --------------- | --------------- | ------------------------------ | -------- | ------- | ------- |
+| Array: includes | 616.4 µs        | 1,622 (477.0 µs … 2.7 ms)      | 648.6 µs | 1.4 ms  | 1.9 ms  |
+| Set: has        | 6.0 ns          | 166,100,000 (5.1 ns … 32.9 ns) | 5.2 ns   | 11.8 ns | 15.7 ns |
 
-**Summary**: `Array: includes` is **94,890x slower** than `Set: has`.
+**Summary**: Array: includes is **102400x slower** than Set: has.
 
-### Group: `add` (Add Element)
+### Group: Add
 
-| Operation          | Time/Iteration (avg) | Iterations/Sec (min … max) | p75     | p99     | p995    |
-| ------------------ | -------------------- | -------------------------- | ------- | ------- | ------- |
-| Array: add element | 10.2 ms              | 98.4 (7.5 ms … 37.8 ms)    | 9.8 ms  | 37.8 ms | 37.8 ms |
-| Set: add element   | 35.0 ms              | 28.6 (33.1 ms … 40.2 ms)   | 34.9 ms | 40.2 ms | 40.2 ms |
+| Method             | Time/Iter (avg) | Iter/s (min … max)       | p75     | p99     | p995    |
+| ------------------ | --------------- | ------------------------ | ------- | ------- | ------- |
+| Array: add element | 9.6 ms          | 104.4 (6.1 ms … 36.7 ms) | 8.7 ms  | 36.7 ms | 36.7 ms |
+| Set: add element   | 35.0 ms         | 28.6 (33.3 ms … 37.3 ms) | 35.3 ms | 37.3 ms | 37.3 ms |
 
-**Summary**: `Array: add element` is **3.44x faster** than `Set: add element`.
+**Summary**: Array: add element is **3.66x faster** than Set: add element.
 
-### Group: `delete` (Delete Element)
+### Group: Delete
 
-| Operation             | Time/Iteration (avg) | Iterations/Sec (min … max) | p75     | p99     | p995    |
-| --------------------- | -------------------- | -------------------------- | ------- | ------- | ------- |
-| Array: delete element | 3.5 ms               | 282.3 (3.1 ms … 6.9 ms)    | 3.6 ms  | 5.7 ms  | 6.9 ms  |
-| Set: delete element   | 43.7 ms              | 22.9 (39.2 ms … 51.7 ms)   | 46.4 ms | 51.7 ms | 51.7 ms |
+| Method                | Time/Iter (avg) | Iter/s (min … max)        | p75     | p99      | p995     |
+| --------------------- | --------------- | ------------------------- | ------- | -------- | -------- |
+| Array: delete element | 3.5 ms          | 288.8 (3.1 ms … 5.6 ms)   | 3.6 ms  | 5.6 ms   | 5.6 ms   |
+| Set: delete element   | 45.3 ms         | 22.1 (33.7 ms … 115.6 ms) | 44.1 ms | 115.6 ms | 115.6 ms |
 
-**Summary**: `Array: delete element` is **12.34x faster** than `Set: delete element`.
+**Summary**: Array: delete element is **13.09x faster** than Set: delete element.
+
+### Group: Iterate
+
+| Method         | Time/Iter (avg) | Iter/s (min … max)       | p75     | p99     | p995    |
+| -------------- | --------------- | ------------------------ | ------- | ------- | ------- |
+| Array: iterate | 12.4 ms         | 80.5 (10.6 ms … 18.8 ms) | 13.5 ms | 18.8 ms | 18.8 ms |
+| Set: iterate   | 11.2 ms         | 89.3 (10.6 ms … 17.6 ms) | 11.2 ms | 17.6 ms | 17.6 ms |
+
+**Summary**: Array: iterate is **1.11x slower** than Set: iterate.
+
+### Group: Clear
+
+| Method       | Time/Iter (avg) | Iter/s (min … max)       | p75     | p99     | p995    |
+| ------------ | --------------- | ------------------------ | ------- | ------- | ------- |
+| Array: clear | 2.6 ms          | 381.8 (1.6 ms … 5.8 ms)  | 2.6 ms  | 5.6 ms  | 5.6 ms  |
+| Set: clear   | 34.7 ms         | 28.8 (32.8 ms … 40.2 ms) | 34.9 ms | 40.2 ms | 40.2 ms |
+
+**Summary**: Array: clear is **13.27x faster** than Set: clear.
+
+### Group: Size
+
+| Method            | Time/Iter (avg) | Iter/s (min … max)             | p75    | p99     | p995    |
+| ----------------- | --------------- | ------------------------------ | ------ | ------- | ------- |
+| Array: size check | 5.8 ns          | 173,500,000 (5.1 ns … 42.2 ns) | 5.3 ns | 14.9 ns | 17.3 ns |
+| Set: size check   | 6.7 ns          | 148,400,000 (5.9 ns … 93.5 ns) | 6.4 ns | 12.4 ns | 15.0 ns |
+
+**Summary**: Array: size check is **1.17x faster** than Set: size check.
+
+### Group: Filter
+
+| Method        | Time/Iter (avg) | Iter/s (min … max)       | p75     | p99     | p995    |
+| ------------- | --------------- | ------------------------ | ------- | ------- | ------- |
+| Array: filter | 15.6 ms         | 64.0 (13.6 ms … 18.8 ms) | 17.0 ms | 18.8 ms | 18.8 ms |
+| Set: filter   | 22.2 ms         | 45.1 (19.7 ms … 34.6 ms) | 23.0 ms | 34.6 ms | 34.6 ms |
+
+**Summary**: Array: filter is **1.42x faster** than Set: filter.
+
+### Group: Merge
+
+| Method       | Time/Iter (avg) | Iter/s (min … max)       | p75     | p99     | p995    |
+| ------------ | --------------- | ------------------------ | ------- | ------- | ------- |
+| Array: merge | 3.8 ms          | 260.8 (2.9 ms … 6.0 ms)  | 3.9 ms  | 5.1 ms  | 6.0 ms  |
+| Set: merge   | 35.6 ms         | 28.1 (33.4 ms … 40.4 ms) | 36.4 ms | 40.4 ms | 40.4 ms |
+
+**Summary**: Array: merge is **9.28x faster** than Set: merge.
 
 ---
 
-## Key Takeaways
+## Methodology
 
-1. **Search (`includes` vs. `has`)**:
+We used the Deno benchmarking tool to measure performance. Each test involves creating a test dataset of size 1,000,000 and performing the specified operation repeatedly. Results are grouped and compared for clarity.
 
-   - `Set: has` is vastly faster than `Array: includes` due to the constant-time complexity of `Set` operations versus the linear-time complexity of `Array` searches.
+## How to Run Benchmarks
 
-2. **Add Element**:
+1. Install [Deno](https://deno.land/).
+2. Clone this repository.
+3. Run the benchmark script:
+   ```bash
+   deno bench
+   ```
 
-   - Adding elements is faster in `Array` than `Set` in this benchmark, likely due to the overhead associated with maintaining a `Set`'s unique constraint.
+## Contributions
 
-3. **Delete Element**:
-   - Deleting elements is significantly faster in `Array` compared to `Set`. This might be due to the overhead in recalculating internal data structures for `Set`.
-
-## Running the Benchmarks
-
-To run these benchmarks, ensure you have Deno installed and execute the following command:
-
-```bash
-deno bench
-```
-
-## About This Project
-
-This project was created to highlight the performance trade-offs between `Array` and `Set` for various operations. Use this data to make informed decisions when choosing the appropriate data structure for your use case.
-
-## License
-
-This project is licensed under the MIT License.
+Feel free to contribute by adding new methods or optimizing existing benchmarks. Open an issue or submit a pull request.
